@@ -1,7 +1,7 @@
 class Node:
     def __init__(self,data):
         self.data=data
-        self.next=None
+        self.next=next
 
 node1=Node('A')
 node2=Node('B')
@@ -23,7 +23,7 @@ node8.next=node3
 
 head=node1
 
-def detect_cycle_start(head):
+def detect_cycle(head):
     slow=fast=head
 
     while fast and fast.next:
@@ -31,14 +31,23 @@ def detect_cycle_start(head):
         fast=fast.next.next
 
         if slow==fast:
+            print("Cyclic linked list")
             break
     
     slow=head
     while slow!=fast:
-        slow=slow.next   
+        prev_fast=fast
+        slow=slow.next
         fast=fast.next
-        
-    print("Cycle Start at node with value:",slow.data)
-    return slow
+    print("Loops Start at:",prev_fast.data)
+    return prev_fast
 
-print(detect_cycle_start(head))
+
+loop_point=detect_cycle(head)
+current=head
+while current:
+    if current==loop_point:
+        current.next=None
+        print("Removed Loop from Linked List")
+        break
+    current=current.next
